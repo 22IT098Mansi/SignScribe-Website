@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
 import Button from '../components/Button';
-import { ArrowRight, TranslateIcon, Lightbulb, GraduationCap } from 'lucide-react';
+import { ArrowRight, Languages, Lightbulb, GraduationCap } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 
 const Index = () => {
@@ -33,7 +33,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-8 relative">
               {/* Connection lines for desktop */}
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-primary/20 -z-10 transform -translate-y-1/2"></div>
               
@@ -41,11 +41,11 @@ const Index = () => {
               <div className="relative">
                 <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
                   <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
-                    <TranslateIcon size={24} />
+                    <Languages size={24} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">1. Real-Time Translation</h3>
+                  <h3 className="text-xl font-bold mb-3">Real-Time Translation</h3>
                   <p className="text-foreground/70">
-                    Our AI technology translates sign language to text and vice versa in real-time, breaking communication barriers.
+                    Our AI technology translates sign language to text in real-time, breaking communication barriers instantly and providing seamless interaction between signers and non-signers.
                   </p>
                   <div className="mt-4">
                     <a href="/translate" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
@@ -56,50 +56,6 @@ const Index = () => {
                 </div>
                 <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
                   1
-                </div>
-              </div>
-              
-              {/* Step 2 */}
-              <div className="relative mt-12 md:mt-0">
-                <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
-                    <Lightbulb size={24} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">2. Learning Resources</h3>
-                  <p className="text-foreground/70">
-                    Access comprehensive learning materials to improve your sign language knowledge and skills.
-                  </p>
-                  <div className="mt-4">
-                    <a href="/learn" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
-                      <span>Explore lessons</span>
-                      <ArrowRight size={14} className="ml-1" />
-                    </a>
-                  </div>
-                </div>
-                <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
-                  2
-                </div>
-              </div>
-              
-              {/* Step 3 */}
-              <div className="relative mt-12 md:mt-0">
-                <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
-                    <GraduationCap size={24} />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">3. Practice & Improve</h3>
-                  <p className="text-foreground/70">
-                    Practice your signing skills with our interactive tools and get AI-powered feedback.
-                  </p>
-                  <div className="mt-4">
-                    <a href="/practice" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
-                      <span>Start practicing</span>
-                      <ArrowRight size={14} className="ml-1" />
-                    </a>
-                  </div>
-                </div>
-                <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
-                  3
                 </div>
               </div>
             </div>
