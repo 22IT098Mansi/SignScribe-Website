@@ -37,7 +37,7 @@ const Navbar = () => {
           <span className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white text-lg">
             S
           </span>
-          <span className="transition-all duration-300">Signa Connect</span>
+          <span className="transition-all duration-300">Sign Scribe</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -53,14 +53,24 @@ const Navbar = () => {
             Home
           </Link>
           <Link 
-            to="/features" 
+            to="/learn" 
             className={`text-sm font-medium transition-colors ${
-              location.pathname === '/features' 
+              location.pathname === '/learn' 
                 ? 'text-accent' 
                 : 'text-foreground/80 hover:text-accent'
             }`}
           >
-            Features
+            Learn
+          </Link>
+          <Link 
+            to="/translate" 
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === '/translate' 
+                ? 'text-accent' 
+                : 'text-foreground/80 hover:text-accent'
+            }`}
+          >
+            Translate
           </Link>
           <Link 
             to="/about" 
@@ -71,16 +81,6 @@ const Navbar = () => {
             }`}
           >
             About
-          </Link>
-          <Link 
-            to="/contact" 
-            className={`text-sm font-medium transition-colors ${
-              location.pathname === '/contact' 
-                ? 'text-accent' 
-                : 'text-foreground/80 hover:text-accent'
-            }`}
-          >
-            Contact
           </Link>
           <div className="flex items-center space-x-3">
             <Button to="/signin" variant="outline" size="sm">
@@ -129,14 +129,24 @@ const Navbar = () => {
               Home
             </Link>
             <Link 
-              to="/features" 
+              to="/learn" 
               className={`block py-2 text-sm font-medium ${
-                location.pathname === '/features' 
+                location.pathname === '/learn' 
                   ? 'text-accent' 
                   : 'text-foreground/80'
               }`}
             >
-              Features
+              Learn
+            </Link>
+            <Link 
+              to="/translate" 
+              className={`block py-2 text-sm font-medium ${
+                location.pathname === '/translate' 
+                  ? 'text-accent' 
+                  : 'text-foreground/80'
+              }`}
+            >
+              Translate
             </Link>
             <Link 
               to="/about" 
@@ -147,16 +157,6 @@ const Navbar = () => {
               }`}
             >
               About
-            </Link>
-            <Link 
-              to="/contact" 
-              className={`block py-2 text-sm font-medium ${
-                location.pathname === '/contact' 
-                  ? 'text-accent' 
-                  : 'text-foreground/80'
-              }`}
-            >
-              Contact
             </Link>
             <div className="pt-3 flex flex-col space-y-2">
               <Button to="/signin" variant="outline" className="w-full">

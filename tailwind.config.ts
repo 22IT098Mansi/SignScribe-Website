@@ -117,8 +117,8 @@ export default {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "glass-gradient": "linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))",
-        "blue-gradient": "linear-gradient(135deg, #3b82f6, #60a5fa)",
-        "purple-gradient": "linear-gradient(135deg, #8b5cf6, #a78bfa)",
+        "green-gradient": "linear-gradient(135deg, #1a5336, #2c7a4e)",
+        "blue-gradient": "linear-gradient(135deg, #0b4f6c, #3a89c9)",
       },
       boxShadow: {
         glass: "0 8px 32px 0 rgba(31, 38, 135, 0.07)",

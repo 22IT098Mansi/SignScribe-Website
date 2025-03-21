@@ -58,11 +58,11 @@ const Index = () => {
                 Get Started Free
               </Button>
               <Button 
-                to="/contact" 
+                to="/translate" 
                 className="bg-transparent border border-white hover:bg-white/10"
                 size="lg"
               >
-                Contact Sales
+                Try Translator
               </Button>
             </div>
           </div>
@@ -78,7 +78,7 @@ const Index = () => {
                 <span className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white text-lg">
                   S
                 </span>
-                <span>Signa Connect</span>
+                <span>Sign Scribe</span>
               </div>
               <p className="text-foreground/70 mb-4">
                 Breaking barriers in sign language communication.
@@ -88,9 +88,9 @@ const Index = () => {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Product</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-foreground/70 hover:text-accent">Features</a></li>
+                <li><a href="/learn" className="text-foreground/70 hover:text-accent">Learn</a></li>
+                <li><a href="/translate" className="text-foreground/70 hover:text-accent">Translate</a></li>
                 <li><a href="#" className="text-foreground/70 hover:text-accent">Pricing</a></li>
-                <li><a href="#" className="text-foreground/70 hover:text-accent">Integrations</a></li>
                 <li><a href="#" className="text-foreground/70 hover:text-accent">Updates</a></li>
               </ul>
             </div>
@@ -118,7 +118,7 @@ const Index = () => {
           
           <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
             <p className="text-foreground/70 text-sm">
-              © 2023 Signa Connect. All rights reserved.
+              © 2023 Sign Scribe. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
               <a href="#" className="text-foreground/70 hover:text-accent" aria-label="Twitter">
