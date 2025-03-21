@@ -1,7 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ArrowRight, Camera, GraduationCap, BookOpen, MessageCircle, Clock, Users, BarChart, Crown } from 'lucide-react';
 
 // Sample data
 const recentActivities = [
@@ -15,6 +16,17 @@ const upcomingLessons = [
   { id: 1, title: 'Advanced Conversational Signs', time: 'Tomorrow, 10:00 AM', difficulty: 'Intermediate' },
   { id: 2, title: 'Professional Workplace Signs', time: 'Wednesday, 2:00 PM', difficulty: 'Advanced' },
   { id: 3, title: 'Medical Terminology in Sign Language', time: 'Friday, 11:00 AM', difficulty: 'Advanced' },
+];
+
+const quickActions = [
+  { id: 1, icon: <Camera size={20} />, title: 'Translate', path: '/translate', color: 'bg-blue-100 text-blue-500' },
+  { id: 2, icon: <GraduationCap size={20} />, title: 'Learn', path: '/learn', color: 'bg-green-100 text-green-500' },
+  { id: 3, icon: <BookOpen size={20} />, title: 'Practice', path: '/practice', color: 'bg-purple-100 text-purple-500' },
+  { id: 4, icon: <MessageCircle size={20} />, title: 'Community', path: '#', color: 'bg-amber-100 text-amber-500' },
+  { id: 5, icon: <Clock size={20} />, title: 'History', path: '#', color: 'bg-pink-100 text-pink-500' },
+  { id: 6, icon: <Users size={20} />, title: 'Friends', path: '#', color: 'bg-teal-100 text-teal-500' },
+  { id: 7, icon: <BarChart size={20} />, title: 'Progress', path: '#', color: 'bg-indigo-100 text-indigo-500' },
+  { id: 8, icon: <Crown size={20} />, title: 'Premium', path: '#', color: 'bg-orange-100 text-orange-500' }
 ];
 
 const Dashboard = () => {
@@ -40,7 +52,7 @@ const Dashboard = () => {
                 <span className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white text-lg">
                   S
                 </span>
-                <span>Signa Connect</span>
+                <span>Sign Scribe</span>
               </Link>
               
               <div className="hidden md:flex ml-10 space-x-8">
@@ -78,11 +90,56 @@ const Dashboard = () => {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold">{greeting}, User!</h1>
-            <p className="text-foreground/70">Here's your sign language learning progress</p>
+            <p className="text-foreground/70">Welcome to your Sign Scribe dashboard</p>
           </div>
-          <Button to="/translate" size="sm">
-            Start Translating
-          </Button>
+        </div>
+        
+        {/* Real-time Translation Card */}
+        <div className="mb-8">
+          <Card className="border-2 bg-white transition-shadow hover:shadow-md">
+            <div className="grid md:grid-cols-2 gap-6 p-6">
+              <div className="flex flex-col justify-center">
+                <h2 className="text-2xl font-bold mb-2">Real-Time Sign Language Translation</h2>
+                <p className="text-foreground/70 mb-6">
+                  Instantly translate sign language to text and communicate effortlessly with our AI-powered technology.
+                </p>
+                <div>
+                  <Button 
+                    to="/translate" 
+                    className="w-full sm:w-auto"
+                  >
+                    Start Translating Now
+                  </Button>
+                </div>
+              </div>
+              <div className="flex justify-center items-center">
+                <div className="w-full max-w-xs aspect-video bg-accent/10 rounded-lg flex items-center justify-center">
+                  <Camera size={48} className="text-accent opacity-60" />
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+        
+        {/* Quick Actions */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+            {quickActions.map(action => (
+              <Link 
+                key={action.id} 
+                to={action.path}
+                className="transition-all hover:-translate-y-1 hover:shadow-md"
+              >
+                <div className="rounded-lg border border-border bg-card p-4 text-center">
+                  <div className={`w-12 h-12 mx-auto rounded-full ${action.color} flex items-center justify-center mb-2`}>
+                    {action.icon}
+                  </div>
+                  <span className="text-sm font-medium">{action.title}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
         
         {/* Stats Cards */}
@@ -185,7 +242,7 @@ const Dashboard = () => {
                     }`}>
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
                         {activity.type === 'practice' ? (
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         ) : activity.type === 'translation' ? (
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
                         ) : activity.type === 'lesson' ? (
@@ -224,7 +281,7 @@ const Dashboard = () => {
                     </div>
                     <p className="text-sm text-foreground/70 mt-2 flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-4 h-4 mr-1">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                       </svg>
                       {lesson.time}
                     </p>

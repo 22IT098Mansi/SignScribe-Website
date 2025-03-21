@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
 import Button from '../components/Button';
-import { ArrowRight, Users, Check, Clock, ShieldCheck, GraduationCap, Globe, Lightbulb } from 'lucide-react';
+import { ArrowRight, TranslateIcon, Lightbulb, GraduationCap } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 
 const Index = () => {
@@ -29,7 +29,7 @@ const Index = () => {
               </span>
               <h2 className="text-3xl md:text-4xl font-bold">How Sign Scribe Works</h2>
               <p className="mt-4 text-lg text-foreground/70 max-w-2xl mx-auto">
-                Our platform makes learning and translating sign language intuitive and accessible
+                Our platform makes real-time sign language translation accessible to everyone
               </p>
             </div>
             
@@ -41,15 +41,15 @@ const Index = () => {
               <div className="relative">
                 <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
                   <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
-                    <GraduationCap size={24} />
+                    <TranslateIcon size={24} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">1. Learn Sign Language</h3>
+                  <h3 className="text-xl font-bold mb-3">1. Real-Time Translation</h3>
                   <p className="text-foreground/70">
-                    Start with our interactive lessons designed to teach you sign language at your own pace.
+                    Our AI technology translates sign language to text and vice versa in real-time, breaking communication barriers.
                   </p>
                   <div className="mt-4">
-                    <a href="/learn" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
-                      <span>Explore lessons</span>
+                    <a href="/translate" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
+                      <span>Try translator</span>
                       <ArrowRight size={14} className="ml-1" />
                     </a>
                   </div>
@@ -65,13 +65,13 @@ const Index = () => {
                   <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
                     <Lightbulb size={24} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">2. Practice Regularly</h3>
+                  <h3 className="text-xl font-bold mb-3">2. Learning Resources</h3>
                   <p className="text-foreground/70">
-                    Use our practice tools to reinforce your skills and get real-time feedback on your signing.
+                    Access comprehensive learning materials to improve your sign language knowledge and skills.
                   </p>
                   <div className="mt-4">
                     <a href="/learn" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
-                      <span>Start practicing</span>
+                      <span>Explore lessons</span>
                       <ArrowRight size={14} className="ml-1" />
                     </a>
                   </div>
@@ -85,15 +85,15 @@ const Index = () => {
               <div className="relative mt-12 md:mt-0">
                 <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
                   <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
-                    <Globe size={24} />
+                    <GraduationCap size={24} />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">3. Translate in Real-Time</h3>
+                  <h3 className="text-xl font-bold mb-3">3. Practice & Improve</h3>
                   <p className="text-foreground/70">
-                    Use our AI-powered translator to convert between sign language and text instantly.
+                    Practice your signing skills with our interactive tools and get AI-powered feedback.
                   </p>
                   <div className="mt-4">
-                    <a href="/translate" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
-                      <span>Try translator</span>
+                    <a href="/practice" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
+                      <span>Start practicing</span>
                       <ArrowRight size={14} className="ml-1" />
                     </a>
                   </div>
