@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
 import Button from '../components/Button';
+import { ArrowRight, Users, Check, Clock, ShieldCheck, GraduationCap, Globe, Lightbulb } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
 
 const Index = () => {
   useEffect(() => {
@@ -18,17 +20,99 @@ const Index = () => {
         <HeroSection />
         <FeaturesSection />
         
+        {/* How it Works Section */}
+        <section className="py-20 bg-secondary/50">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-3">
+                Simple Process
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold">How Sign Scribe Works</h2>
+              <p className="mt-4 text-lg text-foreground/70 max-w-2xl mx-auto">
+                Our platform makes learning and translating sign language intuitive and accessible
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+              {/* Connection lines for desktop */}
+              <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-primary/20 -z-10 transform -translate-y-1/2"></div>
+              
+              {/* Step 1 */}
+              <div className="relative">
+                <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <GraduationCap size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">1. Learn Sign Language</h3>
+                  <p className="text-foreground/70">
+                    Start with our interactive lessons designed to teach you sign language at your own pace.
+                  </p>
+                  <div className="mt-4">
+                    <a href="/learn" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
+                      <span>Explore lessons</span>
+                      <ArrowRight size={14} className="ml-1" />
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
+                  1
+                </div>
+              </div>
+              
+              {/* Step 2 */}
+              <div className="relative mt-12 md:mt-0">
+                <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <Lightbulb size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">2. Practice Regularly</h3>
+                  <p className="text-foreground/70">
+                    Use our practice tools to reinforce your skills and get real-time feedback on your signing.
+                  </p>
+                  <div className="mt-4">
+                    <a href="/learn" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
+                      <span>Start practicing</span>
+                      <ArrowRight size={14} className="ml-1" />
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
+                  2
+                </div>
+              </div>
+              
+              {/* Step 3 */}
+              <div className="relative mt-12 md:mt-0">
+                <div className="bg-background rounded-xl p-6 shadow-md border border-border relative z-10">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-4">
+                    <Globe size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">3. Translate in Real-Time</h3>
+                  <p className="text-foreground/70">
+                    Use our AI-powered translator to convert between sign language and text instantly.
+                  </p>
+                  <div className="mt-4">
+                    <a href="/translate" className="text-primary hover:text-primary/80 inline-flex items-center text-sm font-medium">
+                      <span>Try translator</span>
+                      <ArrowRight size={14} className="ml-1" />
+                    </a>
+                  </div>
+                </div>
+                <div className="hidden md:flex absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-background border-2 border-primary text-primary items-center justify-center font-bold z-20">
+                  3
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
         {/* Stats Section */}
         <section className="py-20 bg-background">
           <div className="container mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               <div className="text-center">
                 <p className="text-4xl md:text-5xl font-bold text-accent">10k+</p>
                 <p className="mt-2 text-foreground/70">Active Users</p>
-              </div>
-              <div className="text-center">
-                <p className="text-4xl md:text-5xl font-bold text-accent">50+</p>
-                <p className="mt-2 text-foreground/70">Sign Languages</p>
               </div>
               <div className="text-center">
                 <p className="text-4xl md:text-5xl font-bold text-accent">98%</p>
@@ -38,6 +122,83 @@ const Index = () => {
                 <p className="text-4xl md:text-5xl font-bold text-accent">24/7</p>
                 <p className="mt-2 text-foreground/70">Support</p>
               </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Testimonials */}
+        <section className="py-20 bg-primary/5">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <span className="inline-block px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full mb-3">
+                Testimonials
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold">What Our Users Say</h2>
+              <p className="mt-4 text-lg text-foreground/70 max-w-2xl mx-auto">
+                Hear from people who have transformed how they communicate
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Testimonial 1 */}
+              <Card className="bg-background">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="mr-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-xl font-bold text-primary">
+                        M
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Maria T.</p>
+                      <p className="text-sm text-muted-foreground">Teacher</p>
+                    </div>
+                  </div>
+                  <p className="text-foreground/80 italic">
+                    "Sign Scribe has revolutionized my classroom. Now all my students can communicate effectively, regardless of hearing ability."
+                  </p>
+                </CardContent>
+              </Card>
+              
+              {/* Testimonial 2 */}
+              <Card className="bg-background">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="mr-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-xl font-bold text-primary">
+                        J
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">James D.</p>
+                      <p className="text-sm text-muted-foreground">Software Developer</p>
+                    </div>
+                  </div>
+                  <p className="text-foreground/80 italic">
+                    "The accuracy of the translation is impressive. It's helped me communicate with my deaf colleagues much more effectively."
+                  </p>
+                </CardContent>
+              </Card>
+              
+              {/* Testimonial 3 */}
+              <Card className="bg-background">
+                <CardContent className="pt-6">
+                  <div className="flex items-center mb-4">
+                    <div className="mr-4">
+                      <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-xl font-bold text-primary">
+                        S
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-semibold">Sarah K.</p>
+                      <p className="text-sm text-muted-foreground">Student</p>
+                    </div>
+                  </div>
+                  <p className="text-foreground/80 italic">
+                    "Learning sign language seemed daunting, but Sign Scribe made it fun and interactive. I'm already having conversations with my deaf friends!"
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>
@@ -98,7 +259,7 @@ const Index = () => {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-foreground/70 hover:text-accent">About</a></li>
+                <li><a href="/about" className="text-foreground/70 hover:text-accent">About</a></li>
                 <li><a href="#" className="text-foreground/70 hover:text-accent">Blog</a></li>
                 <li><a href="#" className="text-foreground/70 hover:text-accent">Careers</a></li>
                 <li><a href="#" className="text-foreground/70 hover:text-accent">Contact</a></li>

@@ -1,84 +1,85 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 150 30% 96%;
-    --foreground: 160 40% 12%;
+    --background: 150 35% 96%;
+    --foreground: 160 60% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 160 40% 12%;
+    --card-foreground: 160 60% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 160 40% 12%;
+    --popover-foreground: 160 60% 12%;
 
-    --primary: 160 40% 20%;
-    --primary-foreground: 150 30% 96%;
+    --primary: 160 60% 25%;
+    --primary-foreground: 150 35% 96%;
 
-    --secondary: 150 20% 90%;
-    --secondary-foreground: 160 40% 12%;
+    --secondary: 150 30% 90%;
+    --secondary-foreground: 160 60% 12%;
 
-    --muted: 150 20% 90%;
-    --muted-foreground: 160 30% 35%;
+    --muted: 150 30% 90%;
+    --muted-foreground: 160 50% 35%;
 
     --accent: 195 80% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 150 30% 96%;
+    --destructive-foreground: 150 35% 96%;
 
-    --border: 150 20% 85%;
-    --input: 150 20% 85%;
-    --ring: 160 40% 20%;
+    --border: 150 30% 85%;
+    --input: 150 30% 85%;
+    --ring: 160 60% 25%;
 
     --radius: 0.8rem;
 
-    --sidebar-background: 155 35% 95%;
-    --sidebar-foreground: 160 40% 25%;
-    --sidebar-primary: 160 40% 20%;
-    --sidebar-primary-foreground: 150 30% 96%;
-    --sidebar-accent: 150 20% 90%;
-    --sidebar-accent-foreground: 160 40% 20%;
-    --sidebar-border: 150 20% 85%;
+    --sidebar-background: 155 40% 95%;
+    --sidebar-foreground: 160 60% 25%;
+    --sidebar-primary: 160 60% 25%;
+    --sidebar-primary-foreground: 150 35% 96%;
+    --sidebar-accent: 150 30% 90%;
+    --sidebar-accent-foreground: 160 60% 25%;
+    --sidebar-border: 150 30% 85%;
     --sidebar-ring: 195 80% 40%;
   }
 
   .dark {
-    --background: 160 40% 12%;
-    --foreground: 150 30% 96%;
+    --background: 160 60% 12%;
+    --foreground: 150 35% 96%;
 
-    --card: 160 40% 12%;
-    --card-foreground: 150 30% 96%;
+    --card: 160 60% 12%;
+    --card-foreground: 150 35% 96%;
 
-    --popover: 160 40% 12%;
-    --popover-foreground: 150 30% 96%;
+    --popover: 160 60% 12%;
+    --popover-foreground: 150 35% 96%;
 
-    --primary: 150 30% 96%;
-    --primary-foreground: 160 40% 12%;
+    --primary: 150 35% 96%;
+    --primary-foreground: 160 60% 12%;
 
-    --secondary: 160 35% 20%;
-    --secondary-foreground: 150 30% 96%;
+    --secondary: 160 40% 20%;
+    --secondary-foreground: 150 35% 96%;
 
-    --muted: 160 35% 20%;
-    --muted-foreground: 150 20% 75%;
+    --muted: 160 40% 20%;
+    --muted-foreground: 150 30% 75%;
 
     --accent: 195 80% 40%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 150 30% 96%;
+    --destructive-foreground: 150 35% 96%;
 
-    --border: 160 35% 20%;
-    --input: 160 35% 20%;
-    --ring: 150 20% 75%;
+    --border: 160 40% 20%;
+    --input: 160 40% 20%;
+    --ring: 150 30% 75%;
     
     --sidebar-background: 160 40% 20%;
-    --sidebar-foreground: 150 20% 90%;
+    --sidebar-foreground: 150 30% 90%;
     --sidebar-primary: 195 80% 40%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 160 35% 25%;
-    --sidebar-accent-foreground: 150 20% 90%;
+    --sidebar-accent-foreground: 150 30% 90%;
     --sidebar-border: 160 35% 25%;
     --sidebar-ring: 195 80% 40%;
   }
@@ -177,4 +178,12 @@
 
 .blur-load.loaded img {
   opacity: 1;
+}
+
+/* Remove default styles for App.css */
+#root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }

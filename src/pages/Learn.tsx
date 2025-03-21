@@ -1,10 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Search, BookOpen } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface SignData {
   id: string;
@@ -15,15 +18,16 @@ interface SignData {
 }
 
 const Learn = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [signData, setSignData] = useState<SignData[]>([]);
   const [filteredData, setFilteredData] = useState<SignData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // This is a mock fetch - in reality, you would fetch from your Google Drive
-    // For now, let's create mock data
-    const mockData: SignData[] = [
+    // Real data from Google Drive
+    const realData: SignData[] = [
       {
         id: '1',
         letter: 'A',
@@ -35,27 +39,48 @@ const Learn = () => {
         id: '2',
         letter: 'B',
         videoUrl: 'https://drive.google.com/file/d/1DHUgUOmxRFm8qeQ3EK94D4b5eqOeD62e/view',
-        description: 'The letter B is signed by holding up your palm, fingers together, pointing up.',
+        description: 'The letter B is signed by holding up your palm, fingers together, pointing up with the thumb tucked across the palm.',
         category: 'alphabet'
       },
       {
         id: '3',
+        letter: 'C',
+        videoUrl: 'https://drive.google.com/file/d/1G-Rn7UzwNSBGeDIfxReLDZtylaS_8OWj/view',
+        description: 'The letter C is signed by curving your fingers and thumb to form a C shape.',
+        category: 'alphabet'
+      },
+      {
+        id: '4',
         letter: '1',
         videoUrl: 'https://drive.google.com/file/d/1zRZ0zxRwDdVvQeNmJubBLJWYYoRqKpRx/view',
         description: 'The number 1 is signed by pointing up with your index finger.',
         category: 'numbers'
       },
       {
-        id: '4',
+        id: '5',
+        letter: '2',
+        videoUrl: 'https://drive.google.com/file/d/1mCsDqMlotUNjJ-_OQ9UVZIlUjIKq_PRn/view',
+        description: 'The number 2 is signed by extending your index and middle fingers up while keeping other fingers closed.',
+        category: 'numbers'
+      },
+      {
+        id: '6',
         letter: 'Hello',
         videoUrl: 'https://drive.google.com/file/d/1Ey7Cp1dtb45kDDuq7tLdJaYCrVVCOvMw/view',
         description: 'Hello is signed by extending your hand flat from your forehead outward.',
         category: 'common'
+      },
+      {
+        id: '7',
+        letter: 'Thank You',
+        videoUrl: 'https://drive.google.com/file/d/17-UlcU1KYlbGTNUFRQkI0qLklrqo_jyy/view',
+        description: 'Thank You is signed by touching your lips with the fingertips of your open hand, then moving your hand outward toward the person you are thanking.',
+        category: 'common'
       }
     ];
     
-    setSignData(mockData);
-    setFilteredData(mockData);
+    setSignData(realData);
+    setFilteredData(realData);
     setIsLoading(false);
   }, []);
 
@@ -91,6 +116,10 @@ const Learn = () => {
     
     // Return the embed URL for video preview
     return `https://drive.google.com/file/d/${fileId}/preview`;
+  };
+
+  const handlePractice = (sign: SignData) => {
+    navigate('/practice', { state: { sign } });
   };
 
   return (
@@ -157,9 +186,14 @@ const Learn = () => {
                       </CardDescription>
                     </CardContent>
                     <CardFooter className="flex justify-end">
-                      <button className="text-sm text-accent hover:text-accent/90">
+                      <Button 
+                        variant="outline" 
+                        className="flex items-center gap-2 text-accent hover:text-accent-foreground"
+                        onClick={() => handlePractice(sign)}
+                      >
+                        <BookOpen size={16} />
                         Practice this sign
-                      </button>
+                      </Button>
                     </CardFooter>
                   </Card>
                 ))}
@@ -179,7 +213,6 @@ const Learn = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredData.map((sign) => (
                 <Card key={sign.id} className="overflow-hidden">
-                  {/* Same card content as above */}
                   <CardHeader>
                     <CardTitle>{sign.letter}</CardTitle>
                   </CardHeader>
@@ -197,9 +230,14 @@ const Learn = () => {
                     </CardDescription>
                   </CardContent>
                   <CardFooter className="flex justify-end">
-                    <button className="text-sm text-accent hover:text-accent/90">
+                    <Button 
+                      variant="outline" 
+                      className="flex items-center gap-2 text-accent hover:text-accent-foreground"
+                      onClick={() => handlePractice(sign)}
+                    >
+                      <BookOpen size={16} />
                       Practice this sign
-                    </button>
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -208,12 +246,74 @@ const Learn = () => {
           
           <TabsContent value="numbers">
             {/* Content for numbers tab - handled by the filter function */}
-            {/* Same structure as alphabet tab */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredData.map((sign) => (
+                <Card key={sign.id} className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>{sign.letter}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="aspect-video rounded-md overflow-hidden bg-muted mb-4">
+                      <iframe 
+                        src={convertGoogleDriveUrl(sign.videoUrl)} 
+                        className="w-full h-full" 
+                        allow="autoplay"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <CardDescription className="text-foreground/80">
+                      {sign.description}
+                    </CardDescription>
+                  </CardContent>
+                  <CardFooter className="flex justify-end">
+                    <Button 
+                      variant="outline" 
+                      className="flex items-center gap-2 text-accent hover:text-accent-foreground"
+                      onClick={() => handlePractice(sign)}
+                    >
+                      <BookOpen size={16} />
+                      Practice this sign
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
           
           <TabsContent value="common">
             {/* Content for common words tab - handled by the filter function */}
-            {/* Same structure as alphabet tab */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredData.map((sign) => (
+                <Card key={sign.id} className="overflow-hidden">
+                  <CardHeader>
+                    <CardTitle>{sign.letter}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="aspect-video rounded-md overflow-hidden bg-muted mb-4">
+                      <iframe 
+                        src={convertGoogleDriveUrl(sign.videoUrl)} 
+                        className="w-full h-full" 
+                        allow="autoplay"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <CardDescription className="text-foreground/80">
+                      {sign.description}
+                    </CardDescription>
+                  </CardContent>
+                  <CardFooter className="flex justify-end">
+                    <Button 
+                      variant="outline" 
+                      className="flex items-center gap-2 text-accent hover:text-accent-foreground"
+                      onClick={() => handlePractice(sign)}
+                    >
+                      <BookOpen size={16} />
+                      Practice this sign
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </main>

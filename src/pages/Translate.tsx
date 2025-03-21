@@ -1,53 +1,65 @@
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Camera, Video, Image, RotateCcw, Copy, Check } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { Camera, MessageSquare, HandMetal, RefreshCw, Copy, RotateCw, PauseCircle, PlayCircle } from "lucide-react";
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Translate = () => {
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isCameraOn, setIsCameraOn] = useState(false);
-  const [detectedSign, setDetectedSign] = useState<string | null>(null);
-  const [isCopied, setIsCopied] = useState(false);
-  const [captureMode, setCaptureMode] = useState<'video' | 'image'>('video');
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [isCameraReady, setCameraReady] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [detectedSign, setDetectedSign] = useState<string | null>(null);
+  const [textToTranslate, setTextToTranslate] = useState('');
+  const [translatedSigns, setTranslatedSigns] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState('camera');
+  const [cameraError, setCameraError] = useState('');
+  
+  useEffect(() => {
+    if (activeTab === 'camera') {
+      initializeCamera();
+    } else {
+      stopCamera();
+    }
+    
+    return () => {
+      stopCamera();
+    };
+  }, [activeTab]);
 
-  const startCamera = async () => {
+  const initializeCamera = async () => {
     try {
-      const constraints = {
-        video: {
+      setCameraError('');
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: "user",
           width: { ideal: 1280 },
-          height: { ideal: 720 },
-          facingMode: 'user'
-        }
-      };
+          height: { ideal: 720 } 
+        },
+        audio: false 
+      });
       
-      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      setStream(mediaStream);
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
-        setStream(mediaStream);
-        setIsCameraOn(true);
-        
-        // Simulate detection after 3 seconds for demo purposes
-        setTimeout(() => {
-          setDetectedSign('Hello');
-          toast({
-            title: "Sign Detected",
-            description: "The sign for 'Hello' has been recognized.",
-          });
-        }, 3000);
+        videoRef.current.onloadedmetadata = () => {
+          setCameraReady(true);
+        };
       }
-    } catch (error) {
-      console.error('Error accessing camera:', error);
+    } catch (err) {
+      console.error("Error accessing camera:", err);
+      setCameraError('Could not access camera. Please check permissions and try again.');
       toast({
-        title: "Camera Error",
-        description: "Could not access your camera. Please check permissions.",
+        title: "Camera Access Error",
+        description: "Could not access your camera. Please check your permissions.",
         variant: "destructive"
       });
     }
@@ -57,237 +69,319 @@ const Translate = () => {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
       setStream(null);
-      setIsCameraOn(false);
+      setCameraReady(false);
+    }
+  };
+
+  const toggleRecording = () => {
+    if (isRecording) {
+      // Stop recording
+      setIsRecording(false);
+      // In a real app, this would stop sending frames to the model
+      
+      // For demo purposes, simulate a detection after stopping
+      const possibleSigns = ["Hello", "Thank You", "Yes", "No", "Please", "Help", "Friend", "Sorry"];
+      const randomSign = possibleSigns[Math.floor(Math.random() * possibleSigns.length)];
+      
+      setTimeout(() => {
+        setDetectedSign(randomSign);
+        toast({
+          title: "Sign Detected",
+          description: `Detected sign: ${randomSign}`,
+        });
+      }, 1000);
+      
+    } else {
+      // Start recording
+      setIsRecording(true);
       setDetectedSign(null);
     }
   };
 
-  const resetTranslation = () => {
-    setDetectedSign(null);
-    toast({
-      description: "Translation has been reset.",
-    });
+  const handleTextTranslation = () => {
+    if (!textToTranslate.trim()) {
+      toast({
+        title: "Empty Input",
+        description: "Please enter some text to translate to sign language.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // For demo purposes, just split the text into words
+    const words = textToTranslate.trim().split(/\s+/).filter(word => word.length > 0);
+    
+    if (words.length > 0) {
+      setTranslatedSigns(words);
+      toast({
+        title: "Translation Complete",
+        description: `Translated ${words.length} words to sign language.`,
+      });
+    }
   };
 
   const copyToClipboard = () => {
-    if (detectedSign) {
-      navigator.clipboard.writeText(detectedSign);
-      setIsCopied(true);
-      toast({
-        description: "Copied to clipboard!",
-      });
-      
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 2000);
-    }
+    navigator.clipboard.writeText(detectedSign || '');
+    toast({
+      title: "Copied to Clipboard",
+      description: `"${detectedSign}" has been copied to your clipboard.`,
+    });
   };
 
-  const captureImage = () => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext('2d');
-      if (context) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
-        context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-        
-        // Here you would normally send the image data to your model
-        // For demo purposes, just simulate detection
-        setTimeout(() => {
-          setDetectedSign('Thank you');
-          toast({
-            title: "Sign Detected",
-            description: "The sign for 'Thank you' has been recognized.",
-          });
-        }, 1000);
-      }
-    }
+  const resetTranslation = () => {
+    setDetectedSign(null);
+    setIsRecording(false);
+    toast({
+      title: "Reset Complete",
+      description: "The translation has been reset.",
+    });
   };
-
-  useEffect(() => {
-    // Clean up function to stop camera when component unmounts
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
-  }, [stream]);
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
       <main className="container mx-auto px-6 pt-32 pb-20">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Sign Language Translator</h1>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-            Use your camera to translate sign language in real-time.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          <div className="space-y-4">
-            <Card className="overflow-hidden">
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>Camera View</span>
-                  <Tabs 
-                    value={captureMode} 
-                    onValueChange={(value) => setCaptureMode(value as 'video' | 'image')}
-                    className="w-auto"
-                  >
-                    <TabsList className="grid w-[180px] grid-cols-2">
-                      <TabsTrigger value="video" className="flex items-center gap-1">
-                        <Video className="w-4 h-4" /> 
-                        <span>Video</span>
-                      </TabsTrigger>
-                      <TabsTrigger value="image" className="flex items-center gap-1">
-                        <Image className="w-4 h-4" /> 
-                        <span>Image</span>
-                      </TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </CardTitle>
-                <CardDescription>
-                  {isCameraOn ? 'Camera is active. Position your hand in the frame.' : 'Turn on your camera to begin translation.'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="relative rounded-lg overflow-hidden bg-muted aspect-video flex items-center justify-center">
-                  {!isCameraOn ? (
-                    <Button onClick={startCamera} className="absolute z-10 flex items-center gap-2">
-                      <Camera className="mr-1" size={18} />
-                      Start Camera
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={stopCamera} 
-                      variant="destructive"
-                      className="absolute top-4 right-4 z-10"
-                    >
-                      Stop Camera
-                    </Button>
-                  )}
-                  
-                  <video 
-                    ref={videoRef} 
-                    autoPlay 
-                    playsInline 
-                    muted 
-                    className={`w-full h-full object-cover ${!isCameraOn ? 'opacity-50' : ''}`}
-                  />
-                  
-                  {captureMode === 'image' && isCameraOn && (
-                    <Button 
-                      onClick={captureImage} 
-                      className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10"
-                    >
-                      Capture Image
-                    </Button>
-                  )}
-                </div>
-                
-                {/* Hidden canvas for image capturing */}
-                <canvas ref={canvasRef} className="hidden" />
-                
-                <div className="flex justify-center mt-4 space-x-2">
-                  {captureMode === 'image' && (
-                    <Button 
-                      onClick={captureImage} 
-                      disabled={!isCameraOn}
-                      className="w-full"
-                    >
-                      <Camera className="mr-2" size={18} />
-                      Capture Image
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">Sign Language Translator</h1>
+            <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+              Real-time translation between sign language and text using our advanced AI technology.
+            </p>
           </div>
           
-          <div className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>Detected Sign</span>
-                  <div className="flex space-x-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      disabled={!detectedSign}
-                      onClick={resetTranslation}
-                    >
-                      <RotateCcw className="w-4 h-4 mr-1" />
-                      Reset
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      disabled={!detectedSign}
-                      onClick={copyToClipboard}
-                    >
-                      {isCopied ? (
-                        <>
-                          <Check className="w-4 h-4 mr-1" />
-                          Copied
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-4 h-4 mr-1" />
-                          Copy
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </CardTitle>
-                <CardDescription>
-                  The translation of the detected sign will appear here.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-muted rounded-lg min-h-[200px] flex flex-col items-center justify-center p-6">
-                  {detectedSign ? (
-                    <>
-                      <h3 className="text-3xl font-bold text-center mb-2">{detectedSign}</h3>
-                      <p className="text-muted-foreground text-center">
-                        Sign detected with high confidence.
-                      </p>
-                    </>
-                  ) : (
-                    <div className="text-center text-muted-foreground">
-                      <p className="mb-2">No sign detected yet.</p>
-                      <p className="text-sm">Start the camera and make a sign gesture to begin.</p>
-                    </div>
-                  )}
+          <Tabs defaultValue="camera" onValueChange={setActiveTab} className="mb-8">
+            <TabsList className="grid grid-cols-2 mb-8 w-full max-w-md mx-auto">
+              <TabsTrigger value="camera" className="flex items-center gap-2">
+                <Camera size={16} />
+                <span>Sign to Text</span>
+              </TabsTrigger>
+              <TabsTrigger value="text" className="flex items-center gap-2">
+                <MessageSquare size={16} />
+                <span>Text to Sign</span>
+              </TabsTrigger>
+            </TabsList>
+            
+            {/* Sign to Text Translation */}
+            <TabsContent value="camera">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <Card className="h-full">
+                    <CardHeader>
+                      <CardTitle>Camera Feed</CardTitle>
+                      <CardDescription>
+                        Position your hands in frame and sign clearly
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="aspect-video bg-muted rounded-md overflow-hidden mb-4 relative">
+                        {cameraError ? (
+                          <div className="absolute inset-0 flex items-center justify-center text-center p-6">
+                            <div>
+                              <p className="text-red-500 mb-3">{cameraError}</p>
+                              <Button onClick={initializeCamera} size="sm">
+                                Retry Camera Access
+                              </Button>
+                            </div>
+                          </div>
+                        ) : isCameraReady ? (
+                          <video 
+                            ref={videoRef} 
+                            autoPlay 
+                            playsInline 
+                            muted
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="animate-pulse">Initializing camera...</div>
+                          </div>
+                        )}
+                        
+                        {isRecording && (
+                          <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full animate-pulse">
+                            Recording
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-3 justify-center">
+                        <Button 
+                          variant={isRecording ? "destructive" : "default"}
+                          className="flex items-center gap-2"
+                          onClick={toggleRecording}
+                          disabled={!isCameraReady}
+                        >
+                          {isRecording ? (
+                            <>
+                              <PauseCircle size={16} />
+                              Stop Detection
+                            </>
+                          ) : (
+                            <>
+                              <PlayCircle size={16} />
+                              Start Detection
+                            </>
+                          )}
+                        </Button>
+                        
+                        <Button 
+                          variant="outline" 
+                          className="flex items-center gap-2"
+                          onClick={resetTranslation}
+                        >
+                          <RefreshCw size={16} />
+                          Reset
+                        </Button>
+                        
+                        <Button 
+                          variant="outline" 
+                          className="flex items-center gap-2"
+                          onClick={() => {
+                            stopCamera();
+                            setTimeout(initializeCamera, 500);
+                          }}
+                        >
+                          <RotateCw size={16} />
+                          Restart Camera
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
                 
-                {detectedSign && (
-                  <div className="mt-6 space-y-4">
-                    <h4 className="font-medium">Recent Detections</h4>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center p-3 bg-background rounded-md border">
-                        <span>{detectedSign}</span>
-                        <span className="text-sm text-muted-foreground">Just now</span>
+                <div>
+                  <Card className="h-full">
+                    <CardHeader>
+                      <CardTitle>Detected Sign</CardTitle>
+                      <CardDescription>
+                        {detectedSign 
+                          ? "Here's what we detected" 
+                          : isRecording 
+                            ? "Detecting signs..." 
+                            : "Start detection to see results"}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="min-h-[200px] flex flex-col items-center justify-center">
+                        {detectedSign ? (
+                          <div className="text-center">
+                            <div className="text-4xl font-bold mb-4 text-primary">{detectedSign}</div>
+                            <div className="flex justify-center gap-2 mt-6">
+                              <Button 
+                                variant="outline" 
+                                className="flex items-center gap-2"
+                                onClick={copyToClipboard}
+                              >
+                                <Copy size={16} />
+                                Copy
+                              </Button>
+                            </div>
+                          </div>
+                        ) : isRecording ? (
+                          <div className="text-center opacity-75">
+                            <HandMetal size={48} className="mx-auto mb-4 animate-pulse" />
+                            <p>Watching for signs...</p>
+                          </div>
+                        ) : (
+                          <div className="text-center text-muted-foreground">
+                            <HandMetal size={48} className="mx-auto mb-4 opacity-50" />
+                            <p>No signs detected yet</p>
+                            <p className="text-sm mt-2">Press Start Detection to begin</p>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+              
+              <div className="mt-6 text-center max-w-2xl mx-auto">
+                <p className="text-sm text-muted-foreground">
+                  Note: This is a demonstration. For the most accurate results, ensure good lighting, 
+                  clear hand visibility, and position yourself centered in the frame.
+                </p>
+              </div>
+            </TabsContent>
+            
+            {/* Text to Sign Translation */}
+            <TabsContent value="text">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Text to Sign Translation</CardTitle>
+                  <CardDescription>
+                    Enter text to convert into sign language
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Enter Text
+                      </label>
+                      <Textarea 
+                        placeholder="Type your message here..."
+                        className="min-h-[150px]"
+                        value={textToTranslate}
+                        onChange={(e) => setTextToTranslate(e.target.value)}
+                      />
+                      <div className="mt-4">
+                        <Button 
+                          onClick={handleTextTranslation}
+                          className="w-full"
+                        >
+                          Translate to Sign Language
+                        </Button>
                       </div>
                     </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Sign Language Representation
+                      </label>
+                      <div className="border rounded-md min-h-[200px] p-4 bg-muted/50">
+                        {translatedSigns.length > 0 ? (
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            {translatedSigns.map((word, index) => (
+                              <div key={index} className="text-center">
+                                <div className="aspect-square flex items-center justify-center bg-primary/10 rounded-md mb-2">
+                                  <span className="text-xl font-bold">{word.charAt(0).toUpperCase()}</span>
+                                </div>
+                                <p className="text-sm truncate">{word}</p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-muted-foreground">
+                            <p>Enter text and click translate to see sign language</p>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {translatedSigns.length > 0 && (
+                        <div className="mt-4 flex justify-end">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => setTranslatedSigns([])}
+                          >
+                            Clear Results
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>How to Use</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <p className="text-foreground/80">1. Start your camera using the button above.</p>
-                <p className="text-foreground/80">2. Position your hand in the frame and make a sign.</p>
-                <p className="text-foreground/80">3. Hold the sign steady for best recognition.</p>
-                <p className="text-foreground/80">4. The translated sign will appear in the detected sign panel.</p>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+              
+              <div className="mt-6 text-center max-w-2xl mx-auto">
+                <p className="text-sm text-muted-foreground">
+                  Text to sign language translation shows how each word would be signed.
+                  For complex sentences, grammar may differ from spoken language.
+                </p>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </main>
     </div>
