@@ -122,33 +122,6 @@ const HeroSection = () => {
             <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full border-2 border-dashed border-primary/20 animate-pulse"></div>
           </div>
         </div>
-        
-        {/* Trusted By Section */}
-        <div className="mt-20 text-center">
-          <p className="text-sm text-muted-foreground mb-6">TRUSTED BY LEADING ORGANIZATIONS</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            <div className="text-muted-foreground/70 hover:text-foreground transition-colors">
-              <svg viewBox="0 0 24 24" className="h-8 w-auto fill-current" aria-hidden="true">
-                <path d="M12 1.5C6.21 1.5 1.5 6.21 1.5 12S6.21 22.5 12 22.5 22.5 17.79 22.5 12 17.79 1.5 12 1.5zM9.004 17.127a.75.75 0 0 1-1.008-1.117l2.25-2.025a.75.75 0 0 1 1.008 0l2.25 2.025a.75.75 0 0 1-1.008 1.117L12 15.241l-2.996 1.886zm-1.008-6.51 2.25-2.026a.75.75 0 0 1 1.008 0l2.25 2.026a.75.75 0 1 1-1.008 1.117L12 11.852l-2.996 1.882a.75.75 0 1 1-1.008-1.117z" />
-              </svg>
-            </div>
-            <div className="text-muted-foreground/70 hover:text-foreground transition-colors">
-              <svg viewBox="0 0 24 24" className="h-8 w-auto fill-current" aria-hidden="true">
-                <path d="M7.5 1.5h-6v6h6v-6zM22.5 1.5h-12v6h12v-6zM22.5 9h-21v6h21v-6zM7.5 16.5h-6v6h6v-6zM22.5 16.5h-12v6h12v-6z" />
-              </svg>
-            </div>
-            <div className="text-muted-foreground/70 hover:text-foreground transition-colors">
-              <svg viewBox="0 0 24 24" className="h-8 w-auto fill-current" aria-hidden="true">
-                <path d="M12 1.5c-5.799 0-10.5 4.701-10.5 10.5S6.201 22.5 12 22.5 22.5 17.799 22.5 12 17.799 1.5 12 1.5zm-.53 2.47a.75.75 0 0 1 1.06 0l1.5 1.5a.75.75 0 0 1-1.06 1.06l-.22-.22v2.19a.75.75 0 0 1-1.5 0V6.31l-.22.22a.75.75 0 1 1-1.06-1.06l1.5-1.5zM16.5 20.358A8.993 8.993 0 0 0 21 12c0-4.963-4.037-9-9-9s-9 4.037-9 9a8.993 8.993 0 0 0 4.5 7.788v-5.288a.75.75 0 0 1 1.5 0v5.788c.657.267 1.366.413 2.1.434v-7.222a.75.75 0 0 1 1.5 0v7.222A9.05 9.05 0 0 0 12 21c1.018 0 1.996-.168 2.909-.476L15 20.636v-7.636a.75.75 0 0 1 1.5 0v7.358z" />
-              </svg>
-            </div>
-            <div className="text-muted-foreground/70 hover:text-foreground transition-colors">
-              <svg viewBox="0 0 24 24" className="h-8 w-auto fill-current" aria-hidden="true">
-                <path d="M3 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H3zm0 1.5h18a.5.5 0 0 1 .5.5v14a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5zm5.25 6.25a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5zm3 0a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5zm3 0a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5zm3 0a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5z" />
-              </svg>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

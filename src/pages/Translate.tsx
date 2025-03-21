@@ -18,9 +18,13 @@ const Translate = () => {
   const [cameraError, setCameraError] = useState('');
   
   useEffect(() => {
-    initializeCamera();
+    // Initialize camera on component mount
+    const timer = setTimeout(() => {
+      initializeCamera();
+    }, 500);
     
     return () => {
+      clearTimeout(timer);
       stopCamera();
     };
   }, []);
@@ -28,6 +32,12 @@ const Translate = () => {
   const initializeCamera = async () => {
     try {
       setCameraError('');
+      
+      // Stop any existing streams first
+      if (stream) {
+        stopCamera();
+      }
+      
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         const mediaStream = await navigator.mediaDevices.getUserMedia({ 
           video: { 
@@ -42,8 +52,20 @@ const Translate = () => {
         
         if (videoRef.current) {
           videoRef.current.srcObject = mediaStream;
+          
+          // Set onloadedmetadata event handler
           videoRef.current.onloadedmetadata = () => {
-            setCameraReady(true);
+            if (videoRef.current) {
+              videoRef.current.play()
+                .then(() => {
+                  console.log("Video playback started successfully");
+                  setCameraReady(true);
+                })
+                .catch(e => {
+                  console.error("Error starting video playback:", e);
+                  setCameraError(`Video playback error: ${e.message}`);
+                });
+            }
           };
         }
       } else {
@@ -63,9 +85,15 @@ const Translate = () => {
 
   const stopCamera = () => {
     if (stream) {
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach(track => {
+        track.stop();
+      });
       setStream(null);
       setCameraReady(false);
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
     }
   };
 
@@ -144,7 +172,7 @@ const Translate = () => {
                           </Button>
                         </div>
                       </div>
-                    ) : isCameraReady ? (
+                    ) : (
                       <video 
                         ref={videoRef} 
                         autoPlay 
@@ -152,10 +180,6 @@ const Translate = () => {
                         muted
                         className="w-full h-full object-cover"
                       />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="animate-pulse">Initializing camera...</div>
-                      </div>
                     )}
                     
                     {isRecording && (
